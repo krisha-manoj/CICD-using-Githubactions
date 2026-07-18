@@ -10,12 +10,21 @@ docker images
 
 3) Run the container 
 
-docker run -p <containerport:hostport> -it <imagename>
+docker run -p <containerport:hostport> -it <dockerusername/projectname:v1> 
 
-Ex : docker run -p 8080:8080 -it krishacicd/v1
+Ex : docker run -p 8080:8080 -it krishasuman/v1
 
 4) Push image to registry 
 
-docker push krishacicd/v1
+docker push krishasuman/v1
+
+5) Before doing the above, ensure you do 
+
+docker login 
+
+6) Delete a image 
+
+docker rmi <imagename>
+
 
 
