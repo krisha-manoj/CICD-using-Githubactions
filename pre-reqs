@@ -1,0 +1,20 @@
+1) Install go
+
+https://go.dev/doc/install
+
+2) Add it in env variable 
+
+3) try to run the golang application after building 
+
+To build : go build -o main.exe 
+
+To run : ./main.exe
+
+Web browser : localhost:8080/courses
+
+4) If u see binary file, cannot read 
+
+add the .exe extension 
+ 
+5) Install docker 
+
