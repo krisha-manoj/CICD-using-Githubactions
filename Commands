@@ -180,5 +180,36 @@ ex: 1.1.1.1 go-web-app.local
 
 go-web-app.local/courses
 
+============================================================
+============================================================
 
+HELM - used to variablize the components in K8S to suit different env like prod, pre-prod (ex: image name )
+
+1) Install HELM 
+
+https://github.com/helm/helm/releases/tag/v4.2.3
+
+2) Extract all files and move helm.exe to C:/Helm 
+
+3) Add env system variable 
+
+charts file - stores metadata of the chart 
+
+4) Create helm charts
+helm create go-web-app-chart   
+
+templates folder - move dep, ing, svc
+
+edit values file 
+and dep file - image name 
+
+u can delete the deployment svc and ingress 
+
+5) To createdep, ing, svc from helm
+
+helm install go-web-app ./go-web-app-chart
+
+6) Uninstall 
+
+helm uninstall go-web-app
 
