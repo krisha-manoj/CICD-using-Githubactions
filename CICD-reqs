@@ -14,3 +14,31 @@ D) Update helm
 
 =============================
 
+CD 
+
+1) Install Argo cd
+kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+2) Access the Argo CD UI (Loadbalancer service) -For Windows
+kubectl patch svc argocd-server -n argocd -p '{\"spec\": {\"type\": \"LoadBalancer\"}}'
+
+3) Get the Loadbalancer service IP
+kubectl get svc argocd-server -n argocd
+
+Login to Argo CD after accessing the LB IP on web browser 
+
+4) To get secrets 
+kubectl get secrets -n argocd
+
+kubectl edit secret <secret_name>
+retrive the password
+
+commands in windows :
+PS C:\CICD_Project\go-web-app> kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath="{.data.password}"
+
+PS C:\CICD_Project\go-web-app> [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String((kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath="{.data.password}")))
+
+Username : admin 
+Password : copied from the command ran above 
+
