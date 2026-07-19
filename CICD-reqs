@@ -52,3 +52,9 @@ I have connected git hub repo to argo cd using token and username, still seeing 
 3) kubectl describe svc argocd-server -n argocd = endpoints mapped
 4) ensure the LB from AWS Console allows port 80 and 443 (https)
 5) ensure health checks passing 
+
+run
+ kubectl port-forward svc/argocd-server -n argocd 8080:443
+
+and then try to argocd lb address - worked 
+
