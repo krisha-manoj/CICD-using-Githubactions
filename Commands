@@ -28,7 +28,8 @@ docker login
 
 docker rmi <imagename>
 
-=====
+============================================================
+============================================================
 
 EKSCTL commands 
 
@@ -38,7 +39,9 @@ eksctl create cluster --name demo-cluster --region us-east-1
 Delete Cluster
 eksctl delete cluster --name demo-cluster --region us-east-1
 
-=====
+============================================================
+============================================================ 
+
 K8S Commands 
 
 Create pods :
@@ -120,3 +123,62 @@ Issue : Security group issue
 
 Resolution :
 Added - port 31924 in the inbound of the ec2 instance (EKS nodes) SG where source is laptops public ip address obtained by browsing "whats my ip address" in browser
+
+============================================================
+============================================================
+
+Create ingress controller 
+
+1) Install the nginx ingress controller using  :
+https://github.com/kubernetes/ingress-NGINX
+
+Command :
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.11.1/deploy/static/provider/aws/deploy.yaml
+
+Asking the ingress controller to create a load balancer so that when the user accessing the LB using domain/hosts , forward request to the service (automatically to even the pods)
+
+2) Check the controller 
+
+kubectl get pods -n ingress-nginx
+
+Watches for resources with ingress class name as nginx
+
+Challenge 4 : On trying to access the LB address, will not be able to because 
+
+Address is :
+a60730e2361554123a3af50bdc8c5caf-a7c559ec25b4b54b.elb.us-west-2.amazonaws.com 
+
+But in ingress configuration, we have given only forward request if user enters : go-web-app.local
+
+3) therefore, we need to do DNS mapping 
+
+Since you are on windows machine to opn /etc/hosts file, do the below :
+
+-> Open Notepad as Administrator
+
+Inside Notepad
+
+-> Go to File → Open.
+
+Navigate to:
+
+C:\Windows\System32\drivers\etc
+
+At the bottom-right, change:
+
+Text Documents (*.txt) to All Files (*.*)
+
+Select the hosts file and click Open.
+
+-> In the last line : <IPaddress of the LB address> <host name>
+
+To get the LB address nslookup <ing address>
+
+ex: 1.1.1.1 go-web-app.local
+
+-> Now we can access the host/domain name in browser 
+
+go-web-app.local/courses
+
+
+
