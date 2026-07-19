@@ -58,3 +58,28 @@ run
 
 and then try to argocd lb address - worked 
 
+Challenge 2  :Unable to see new CD after commit 
+
+-> kubectl get applications -n argocd
+
+NAME              SYNC STATUS   HEALTH STATUS
+cicd-deployment   Synced        Degraded
+
+If status is degraded, one of more resources are not healthy 
+
+Check pod status 
+
+-> kubectl get pods
+NAME                                     READY   STATUS             RESTARTS   AGE
+go-web-app-deployment-6f5787bfcb-lxsw8   0/1     InvalidImageName   0          20m
+
+ERROR :  InvalidImageName
+
+-> kubectl describe pod go-web-app-deployment-6f5787bfcb-lxsw8
+
+Events:
+  Type     Reason         Age                 From               Message
+  ----     ------         ----                ----               -------
+  Normal   Scheduled      21m                 default-scheduler  Successfully assigned default/go-web-app-deployment-6f5787bfcb-lxsw8 to ip-192-168-37-26.us-west-2.compute.internal
+  Warning  Failed         19m (x12 over 21m)  kubelet            spec.containers{golang}: Error: InvalidImageName
+  Warning  InspectFailed  87s (x95 over 21m)  kubelet            spec.containers{golang}: Failed to apply default image tag "krishasuman123/v1:latest:29685781323": couldn't parse image name "krishasuman123/v1:latest:29685781323": invalid reference format
