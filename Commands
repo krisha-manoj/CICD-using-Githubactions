@@ -1,0 +1,122 @@
+Docker Commands 
+
+1) Build a docker image 
+
+docker build -t <imagename> <path> 
+
+Ex : docker build -t krishacicd:/v1 .
+
+2) Check the created image 
+
+docker images 
+
+3) Run the container 
+
+docker run -p <containerport:hostport> -it <dockerusername/projectname:v1> 
+
+Ex : docker run -p 8080:8080 -it krishasuman/v1
+
+4) Push image to registry 
+
+docker push krishasuman/v1
+
+5) Before doing the above, ensure you do 
+
+docker login 
+
+6) Delete a image 
+
+docker rmi <imagename>
+
+=====
+
+EKSCTL commands 
+
+Create cluster
+eksctl create cluster --name demo-cluster --region us-east-1 
+
+Delete Cluster
+eksctl delete cluster --name demo-cluster --region us-east-1
+
+=====
+K8S Commands 
+
+Create pods :
+kubectl apply -f <deployment.yml file path>
+
+Check pods : kubectl get pods 
+
+Create service :
+kubectl apply -f <service.yml file path>
+
+Check service : kubectl get svc 
+
+Create ingress :
+kubectl apply -f <ingress.yml file path>
+
+Challenge 1) error while executing the ingress file 
+Syntax error : ingressClassName 
+Error from server (BadRequest): error when creating "k8s/manifests/ingress.yml": Ingress in version "v1" cannot be handled as a Ingress: strict decoding error: unknown field "spec.ingressClassname"
+
+Check ingress : kubectl get ing
+
+Challenge 2) Why no address seen in ingress resource 
+
+PS C:\CICD_Project\go-web-app> kubectl get ing
+NAME                 CLASS   HOSTS              ADDRESS   PORTS   AGE
+go-web-app-ingress   nginx   go-web-app.local             80      114s
+
+Because ingress controller is the one that assigns address for the ingress resource and we have not created a ingress controller 
+
+EXPOSE Service in nodeport mode and check if it is running 
+
+-> Edit the type to NodePort and then do kubectl apply and kubectl get svc to get the port 
+
+Get the Node IP address
+
+kubectl get nodes -o wide
+
+Challenge 3) 
+Trying to access the service externally using <external IP address of the node>:<node port>/courses
+
+Error seen in web browser 
+This site can’t be reached
+44.251.147.136 took too long to respond.
+Try:
+
+Checking the connection
+Checking the proxy and the firewall
+Running Windows Network Diagnostics
+ERR_CONNECTION_TIMED_OUT
+
+Troubleshooting steps :
+
+A) Verify your Service
+kubectl get svc
+
+Node Port type and port number 
+
+B) Check if pods are ready and not in CrashLoopBackOff, ImagePullBackOff, Pending
+kubectl get nodes -o wide
+
+C) Check the Endpoints
+kubectl get endpoints or kubectl describe svc go-web-app-service
+
+If you see Endpoints: <none>
+
+then your Service selector does not match your Pod labels.
+
+-> Check service selector 
+
+kubectl describe svc go-web-app-service
+
+-> Check POD label
+
+kubectl get pods --show-labels
+
+On checking my file, the POD selector did not match service label, edited both 
+
+Issue : Security group issue
+
+Resolution :
+Added - port 31924 in the inbound of the ec2 instance (EKS nodes) SG where source is laptops public ip address obtained by browsing "whats my ip address" in browser
