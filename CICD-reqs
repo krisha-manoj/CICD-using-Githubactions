@@ -1,0 +1,16 @@
+CI - github actions 
+
+CD - gitops using argocd 
+
+CI stages 
+
+A) Build application (go lang) and Unit test 
+
+B) Static code analysis 
+
+C) Docker Image build and push 
+
+D) Update helm 
+
+=============================
+
