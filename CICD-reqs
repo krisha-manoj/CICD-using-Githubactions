@@ -44,7 +44,7 @@ Password : copied from the command ran above
 
 Argo CD cannot clone private repo without first connecting it 
 
-Challenge 
+Challenge 1
 I have connected git hub repo to argo cd using token and username, still seeing this issue while trying to add application in argocd : Unable to load data: Request has been terminated Possible causes: the network is offline, Origin is not allowed by Access-Control-Allow-Origin, the page is being unloaded, etc.
 
 1) kubectl get svc argocd-server -n argocd = check server reflects the lb address 
@@ -83,3 +83,21 @@ Events:
   Normal   Scheduled      21m                 default-scheduler  Successfully assigned default/go-web-app-deployment-6f5787bfcb-lxsw8 to ip-192-168-37-26.us-west-2.compute.internal
   Warning  Failed         19m (x12 over 21m)  kubelet            spec.containers{golang}: Error: InvalidImageName
   Warning  InspectFailed  87s (x95 over 21m)  kubelet            spec.containers{golang}: Failed to apply default image tag "krishasuman123/v1:latest:29685781323": couldn't parse image name "krishasuman123/v1:latest:29685781323": invalid reference format
+
+resolution : update deployment helm chart -> image tag : krishasuman123/v1:29685781323, it should not contain 2 tags like krishasuman123/v1:latest:29685781323
+
+Challenge 2 
+
+See a new error in pod : ImagePullBackOff
+
+ Warning  Failed     9m21s (x5 over 12m)  kubelet            spec.containers{golang}: Failed to pull image "krishasuman123/v1:29687300781": rpc error: code = NotFound desc = failed to pull and unpack image "docker.io/krishasuman123/v1:29687300781": failed to resolve reference "docker.io/krishasuman123/v1:29687300781": docker.io/krishasuman123/v1:29687300781: not found
+  Warning  Failed     9m21s (x5 over 12m)  kubelet            spec.containers{golang}: Error: ErrImagePull
+  Normal   BackOff    117s (x43 over 12m)  kubelet            spec.containers{golang}: Back-off pulling image "krishasuman123/v1:29687300781"
+  Warning  Failed     117s (x43 over 12m)  kubelet            spec.containers{golang}: Error: ImagePullBackOff
+
+-> verify image on docker hub 
+docker pull krishasuman123/v1:29687300781
+
+Error response from daemon: failed to resolve reference "docker.io/krishasuman123/v1:29687300781": docker.io/krishasuman123/v1:29687300781: not found
+
+
