@@ -42,3 +42,4 @@ PS C:\CICD_Project\go-web-app> [System.Text.Encoding]::UTF8.GetString([System.Co
 Username : admin 
 Password : copied from the command ran above 
 
+Argo CD cannot clone private repo without first connecting it 
