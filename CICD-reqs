@@ -98,6 +98,10 @@ See a new error in pod : ImagePullBackOff
 -> verify image on docker hub 
 docker pull krishasuman123/v1:29687300781
 
+On checking the argocd status it was degraded -> performed refresh and it came up as healthy 
+
+post that the pods were also healthy
+
 Error response from daemon: failed to resolve reference "docker.io/krishasuman123/v1:29687300781": docker.io/krishasuman123/v1:29687300781: not found
 
 
