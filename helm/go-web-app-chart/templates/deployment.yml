@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: golang
-        image: krishasuman123/v1:latest:{{ .Values.image.tag}}
+        image: krishasuman123/v1:{{ .Values.image.tag}}
         ports:
         - containerPort: 8080
